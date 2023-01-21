@@ -10,3 +10,4 @@ x = [[f'A_{num}', f'B_{num}'] for num in N]
 print(x)
 #bqm = BinaryQuadraticModel('BINARY')
 
+#change
