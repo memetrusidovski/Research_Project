@@ -17,7 +17,7 @@ for i in a_n:
     bqm.add_variable(i)
 
 
-bqm.add_linear_equality_constraint( [ ('a_0', 1), ('a_1', 1), ('a_2', 1) ], 10, 1)
+bqm.add_linear_equality_constraint( [ ('a_0', 1), ('a_1', 1), ('a_2', 1) ], 10, -1)
 
 sampler = EmbeddingComposite(DWaveSampler())
 sampleset = sampler.sample(bqm, num_reads=10)
