@@ -6,7 +6,20 @@ from dwave.system import LeapHybridCQMSampler
 s = [9,10,11]
 n = 27
 
-paf = [(3, 1)]
+paf = [
+    (3, -1),
+    (-5, 7),
+    (-1, 3),
+    (-5, 7),
+    (3, -1),
+    (3, -1),
+    (-5, 7),
+    (-1, 3),
+    (3, -1),
+    (-1, 3),
+    (-1, 3),
+    (3, -1),
+    (3, -1)]
 
 #y = [dimod.Spin(f'y_0'), dimod.Spin(f'y_1'), dimod.Spin(f'y_2')]
 
@@ -19,15 +32,15 @@ cqm = dimod.ConstrainedQuadraticModel()
 # cqm.set_objective(sum(y))
 
 
-cqm.add_constraint(sum(x[0]) == 1, label=f'item_placing_0')
-cqm.add_constraint(sum(x2[0]) == 5, label=f'item_placing_1')
+cqm.add_constraint(sum(x[0]) == 5, label=f'item_placing_0')
+cqm.add_constraint(sum(x2[0]) == -9, label=f'item_placing_1')
 
 for j, t in zip(s, paf):
     cqm.add_constraint(
-        sum( (x[0][i] * x[0][ (i+j) % n ]) for i in range( n ) ) == -1,
+        sum( (x[0][i] * x[0][ (i+j) % n ]) for i in range( n ) ) == t[0],
         label=f'capacity_bin_{j}')
     cqm.add_constraint(
-        sum( (x2[0][i] * x2[0][ (i+j) % n ]) for i in range( n ) ) == 3,
+        sum( (x2[0][i] * x2[0][ (i+j) % n ]) for i in range( n ) ) == t[1],
         label=f'capacity_bin_{j}1')
 
 '''
