@@ -1,5 +1,6 @@
 from dwave.system import DWaveSampler, EmbeddingComposite
 from dimod import BinaryQuadraticModel
+import dwave.inspector
 
 s = 1
 n = 3
@@ -26,6 +27,8 @@ sample = sampleset.first.sample
 
 print(sample)
 
+
+dwave.inspector.show(sampleset)
 
 """
 # example for n = 7 *works

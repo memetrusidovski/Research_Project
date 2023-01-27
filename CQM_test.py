@@ -3,8 +3,8 @@ from dimod import ConstrainedQuadraticModel
 import dimod
 from dwave.system import LeapHybridCQMSampler
 
-s = [9,10,11]
-n = 27
+s = [1,2]
+n = 5
 
 paf = [(3, 1)]
 
@@ -22,7 +22,7 @@ cqm = dimod.ConstrainedQuadraticModel()
 cqm.add_constraint(sum(x[0]) == 1, label=f'item_placing_0')
 cqm.add_constraint(sum(x2[0]) == 5, label=f'item_placing_1')
 
-for j, t in zip(s, paf):
+for j in s:
     cqm.add_constraint(
         sum( (x[0][i] * x[0][ (i+j) % n ]) for i in range( n ) ) == -1,
         label=f'capacity_bin_{j}')
@@ -38,11 +38,11 @@ cqm.add_constraint(
 
 print(cqm, "----------------------------")
 
-
+'''
 sampler = LeapHybridCQMSampler()                
 sampleset = sampler.sample_cqm(cqm)             
 print(sampleset.first)  
-
+'''
 
 
 

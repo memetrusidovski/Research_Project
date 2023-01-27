@@ -38,3 +38,6 @@ sample = sampleset.first.sample
 
 print(sample)
 print(bqm)
+
+
+dwave.inspector.show(sampleset)
