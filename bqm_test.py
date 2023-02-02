@@ -24,9 +24,11 @@ for i in a_n:
 
 
 #bqm.add_linear_equality_constraint( [ ('a_0', 1), ('a_1', 1), ('a_2', 1) ], 0.5, -1)
-
+'''
 qubo = {(0, 0): 0, (1, 1): 0, (0, 1): 0.5, (2, 2): 0,
         (0, 2): 0.5, (1, 2): 0.5}
+        '''
+qubo = {(1, 0): 8.0, (2, 0): 8.0, (2, 1): 8.0, (4, 3): 8.0, (5, 3): 8.0, (5, 4): 8.0}
 bqm = BinaryQuadraticModel.from_qubo(qubo)
 
 BinaryQuadraticModel.to_ising(bqm)
@@ -40,4 +42,4 @@ print(sample)
 print(bqm)
 
 
-dwave.inspector.show(sampleset)
+#dwave.inspector.show(sampleset)

@@ -15,14 +15,7 @@ x2 = [[dimod.Spin(f'b_0_{j}') for j in range(n)] ]
 
 
 cqm = dimod.ConstrainedQuadraticModel()
-'''
-nums = [1,-1]
 
-for n in x[0]:
-        cqm.add_discrete([(n, i) for i in range(len(nums))])
-for n in x2[0]:
-        cqm.add_discrete([(n, i) for i in range(len(nums))])
-'''
 cqm.add_constraint(sum(x[0]) == -alpha[0], label=f'item_placing_0')
 cqm.add_constraint(sum(x2[0]) == -alpha[1], label=f'item_placing_1')
 
@@ -35,13 +28,24 @@ for j in s:
 
 print(cqm, "----------------------------")
 
-'''
+
+import neal
+
 from dwave.preprocessing.presolve import Presolver
 presolve = Presolver(cqm)
 presolve.load_default_presolvers()
 presolve.apply()
 
+bqm, invert = dimod.cqm_to_bqm(presolve.copy_model())
+
+print(bqm)
+print("----------------------------")
 print(presolve.copy_model())
+
+'''
+sampler = neal.SimulatedAnnealingSampler()
+sampleset = sampler.sample(bqm)             
+print(sampleset.first, "\n", "="*30) 
 '''
 '''
 sampler = LeapHybridCQMSampler()  
@@ -56,6 +60,5 @@ print(feasible_sampleset)
 for i in sampleset.samples():
     print(i)
 
-bqm, invert = dimod.cqm_to_bqm(cqm)
 sampleset = dimod.ExactSolver().sample(bqm)
 print(sampleset.first) '''
