@@ -19,12 +19,13 @@ cqm = dimod.ConstrainedQuadraticModel()
 cqm.add_constraint(sum(x[0]) == -alpha[0], label=f'item_placing_0')
 cqm.add_constraint(sum(x2[0]) == -alpha[1], label=f'item_placing_1')
 
+'''
 for j in s:
     cqm.add_constraint( 
         sum( (x[0][i] * x[0][ (i+j) % n ]) for i in range( n ) ) +
         sum( (x2[0][i] * x2[0][ (i+j) % n ]) for i in range( n ) ) == 2,
         label=f'capacity_bin_{j}1')
-
+'''
 
 print(cqm, "----------------------------")
 
