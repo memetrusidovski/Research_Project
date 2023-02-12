@@ -4,11 +4,12 @@ import dimod
 from dwave.system import LeapHybridCQMSampler
 
 
-n = 7
-s = list(range(1, int((n-1)/2)))
-alpha = (1, 5)
+n = 37
+s = list(range(1, int((n-1)/2) + 1))
+alpha = (5,11)
 
-s = [1,2,3]
+print(s)
+#s = [1,2,3]
 
 x = [[dimod.Spin(f'a_0_{j}') for j in range(n)] ]
 x2 = [[dimod.Spin(f'b_0_{j}') for j in range(n)] ]
@@ -34,7 +35,7 @@ for j in s:
 
 
 print(cqm, "----------------------------")
-
+'''
 from dwave.preprocessing.presolve import Presolver
 presolve = Presolver(cqm)
 presolve.load_default_presolvers()
@@ -43,14 +44,15 @@ presolve.apply()
 print(presolve.copy_model())
 '''
 
+
 sampler = LeapHybridCQMSampler()  
 sampleset = sampler.sample_cqm(cqm)             
 print(sampleset.first, "\n", "="*30)  
 
 feasible_sampleset = sampleset.filter(lambda d: d.is_feasible)
-print(feasible_sampleset)
+#print(feasible_sampleset.info)
+print(feasible_sampleset.first)
 
-'''
 
 '''
 for i in sampleset.samples():
