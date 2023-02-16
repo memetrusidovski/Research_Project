@@ -7,43 +7,44 @@ from dwave.system import LeapHybridCQMSampler
 This is a prototype for getting around the limitations of connectivity
 """
 
-n = 27
+n = 85
 s = list(range(1, int((n-1)/2)+1))
-alpha = (5, 9)
+alpha = (7, 17)
 
-print(s[:-1])
+
+#print(s[:-1])
 #s = [1,2,3]
 
-x_0 = [ [dimod.Spin(f'a_{i-1}_{j}') for j in range(n)] for i in s ]
+x_0 = [ [dimod.Spin(f'a_{i-1}_{j}' ) for j in range(n)] for i in s ]
 
-x2_0 = [ [dimod.Spin(f'b_{i-1}_{j}') for j in range(n)] for i in s ]
+x2_0 = [ [dimod.Spin(f'b_{i-1}_{j}' ) for j in range(n)] for i in s ]
 
-#print(x_0)
+print(len(x_0), " ", len(x_0[0]))
 
 cqm = dimod.ConstrainedQuadraticModel()
+
+'''
+for j in s:
+    cqm.add_constraint(sum(x_0 [j-1]) == -alpha[0], label=f'item_placing_0_{j}')
+    cqm.add_constraint(sum(x2_0 [j-1]) == -alpha[1], label=f'item_placing_1_{j}')
+'''
+
 
 cqm.add_constraint(sum(x_0 [0]) == -alpha[0], label=f'item_placing_0')
 cqm.add_constraint(sum(x2_0 [0]) == -alpha[1], label=f'item_placing_1')
 
+
 #remove first to take away a comparison 
 for j in s[:-1]:
     for i in range(n):   
-        cqm.add_constraint(x_0[j-1] [i] - x_0[j] [i] == 0)
-'''
-for j in [ 7, 8, 9, 10, 11, 12]:
-    for i in range(n):   
-        cqm.add_constraint(x_0[6] [i] - x_0[j] [i] == 0)
-'''
-
+        cqm.add_constraint(x_0[j-1] [i] - x_0[j] [i] == 0, label=f'entangle_a_{j}_{i}', copy=False, penalty = 'quadratic')
+        #print(j, "<---", i)
+        
 
 for j in s[:-1]:
     for i in range(n):   
-        cqm.add_constraint(x2_0[j-1][i] - x2_0[j][i] == 0)
-'''
-for j in [7, 8, 9, 10, 11, 12]:
-    for i in range(n):   
-        cqm.add_constraint(x2_0[6][i] - x2_0[j][i] == 0)
-'''
+        cqm.add_constraint(x2_0[j-1][i] - x2_0[j][i] == 0, label=f'entangle_b_{j}_{i}', copy=False, penalty = 'quadratic')
+
 
 for j in s:
     cqm.add_constraint( 
@@ -52,8 +53,10 @@ for j in s:
         label=f'capacity_bin_{j}1')
 
 
-print(cqm, "----------------------------")
+#print(cqm, "----------------------------")
 
+for j in s:
+    print( cqm.constraints[f'capacity_bin_{j}1'].to_polystring(), "\n\n" )
 
 
 
@@ -63,23 +66,14 @@ print(sampleset.first, "\n", "="*30)
 
 feasible_sampleset = sampleset.filter(lambda d: d.is_feasible)
 print(feasible_sampleset)
-
-
+print(feasible_sampleset.first)
 
 '''
-for i in sampleset.samples():
-    print(i)
 
-bqm, invert = dimod.cqm_to_bqm(cqm)
-sampleset = dimod.ExactSolver().sample(bqm)
-print(sampleset.first) 
+from dwave.preprocessing.presolve import Presolver
+presolve = Presolver(cqm)
+presolve.load_default_presolvers()
+presolve.apply()
 
-x_0 = []
-for i in s:
-    x_0.append( [dimod.Spin(f'a_0_{j}') for j in range(n)] )
-
-x2_0 = []
-for i in s:
-    x2_0.append( [dimod.Spin(f'b_0_{j}') for j in range(n)] )
-
+print(presolve.copy_model())
 '''
