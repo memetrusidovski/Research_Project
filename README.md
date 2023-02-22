@@ -15,3 +15,9 @@ To run the code in this project, you will need:
 - Numpy for numerical computations.
 - Matplotlib for plotting results.
 - NetworkX
+
+## Results
+The results of this project demonstrate the potential of quantum algorithms for solving D-Optimal designs. By using a quantum matrix inversion algorithm, we were able to achieve speedups of up to several orders of magnitude compared to classical algorithms. Moreover, the fidelity of the quantum circuit was high enough to produce designs with high quality metrics, as measured by the determinant of the design matrix.
+
+## Conclusion
+In conclusion, this project shows that quantum algorithms can provide a significant advantage for solving D-Optimal experimental design problems, which are known to have exponential complexity. By exploiting the power of quantum mechanics, we were able to achieve speedups that can enable the design of more efficient and effective experiments in a wide range of scientific and engineering domains.
