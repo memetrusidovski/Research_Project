@@ -1,4 +1,5 @@
-# D-Optimal Solutions using Quantum Algorithms
+# ⚡️D-Optimal Solutions Using Quantum Algorithms⚡️
+
 ## Overview
 
 This project aims to explore the use of quantum algorithms for solving D-Optimal experimental design problems. D-Optimal designs seek to maximize the determinant of a certain matrix, which measures the quality of the design in terms of its ability to discriminate between different model parameters. The problem is known to be NP-hard, meaning that its computational complexity grows exponentially with the size of the problem instance.
