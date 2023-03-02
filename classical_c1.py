@@ -3,16 +3,16 @@ from dimod import BinaryQuadraticModel
 import dwave.inspector
 
 s = 1
-n = 3
+n = 30
 
 paf = [(3, 1)]
 
-a_n = [f'a_{i}' for i in range(n)]
+a_n = [f'a_0_{i}' for i in range(n)]
 
 print(a_n)
 bqm = BinaryQuadraticModel('SPIN')
 
-#BinaryQuadraticModel.to_ising(bqm)
+BinaryQuadraticModel.to_ising(bqm)
 
 for i in a_n:
     bqm.add_variable(i)
@@ -20,13 +20,17 @@ for i in a_n:
 
 bqm.add_linear_equality_constraint( [ ('a_0', 1), ('a_1', 1), ('a_2', 1) ], 10, -1)
 
-bqm.add_quadratic(a_n[0], a_n[1], )
-sampler = EmbeddingComposite(DWaveSampler())
-sampleset = sampler.sample(bqm, num_reads=10)
+#sampler = EmbeddingComposite(DWaveSampler())
+#sampleset = sampler.sample(bqm, num_reads=10)
 
-sample = sampleset.first.sample
+#sample = sampleset.first.sample
+import neal
 
-print(sample)
+sampler = neal.SimulatedAnnealingSampler()
+sampleset = sampler.sample(bqm)             
+print(sampleset.first, "\n", "="*30) 
+
+
 
 
 #dwave.inspector.show(sampleset)

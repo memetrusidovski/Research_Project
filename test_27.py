@@ -50,14 +50,14 @@ cqm.add_constraint(
 '''
 
 print(cqm, "----------------------------")
-
+'''
 
 sampler = LeapHybridCQMSampler()                
 sampleset = sampler.sample_cqm(cqm)             
 print(sampleset.first)  
 
 
-
+'''
 
 '''
 sampler = LeapHybridCQMSampler()
