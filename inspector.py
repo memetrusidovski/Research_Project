@@ -35,4 +35,5 @@ sampler = LeapHybridCQMSampler()
 sampleset = sampler.sample_cqm(cqm)             
 print(sampleset.first)  
 print(sampler.min_time_limit)
-dwave.inspector.show(sampleset)'''
+'''
+dwave.inspector.show(cqm)

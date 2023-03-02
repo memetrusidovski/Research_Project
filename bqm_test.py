@@ -42,4 +42,6 @@ print(sample)
 print(bqm)
 
 
+import dwave.inspector
+dwave.inspector.show(sample)
 #dwave.inspector.show(sampleset)

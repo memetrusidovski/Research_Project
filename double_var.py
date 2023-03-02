@@ -53,13 +53,13 @@ for j in s:
         label=f'capacity_bin_{j}1')
 
 
-#print(cqm, "----------------------------")
+print(cqm, "----------------------------")
 
-for j in s:
-    print( cqm.constraints[f'capacity_bin_{j}1'].to_polystring(), "\n\n" )
+# for j in s:
+#     print( cqm.constraints[f'capacity_bin_{j}1'].to_polystring(), "\n\n" )
 
 
-
+'''
 sampler = LeapHybridCQMSampler()  
 sampleset = sampler.sample_cqm(cqm)             
 print(sampleset.first, "\n", "="*30)  
@@ -67,7 +67,7 @@ print(sampleset.first, "\n", "="*30)
 feasible_sampleset = sampleset.filter(lambda d: d.is_feasible)
 print(feasible_sampleset)
 print(feasible_sampleset.first)
-
+'''
 '''
 
 from dwave.preprocessing.presolve import Presolver
