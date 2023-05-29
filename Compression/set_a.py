@@ -88,12 +88,12 @@ def clean(qq):
         print(f"{Fore.GREEN}] {ct}\n")
 
 
-n = 37
+n = 31
 # s = [1,2,3,4,5] #
 s = list(range(1, int((n-1)/2)))
 # s = [15,16,17,18,19,20]
 # s = [1,2,3,4,5,6,7,8,9,10]
-alpha = (5, 11)
+alpha = (1, 11)
 
 x = [[dimod.Spin(f'a_0_{j}') for j in range(n)] ]
 x2 = [[dimod.Spin(f'b_0_{j}') for j in range(n)] ]
@@ -107,14 +107,17 @@ cqm.add_constraint(sum(x2[0]) == -alpha[1], label=f'item_placing_1')
 
 cqm.set_objective( sum( (x[0][i] * x[0][ (i) % n ]) for i in range( n ) )  + sum( (x2[0][i] * x2[0][ (i) % n ]) for i in range( n ) ))
 
+w = [-1,-1,3,-1,3,-1,-5,-1,3,-1,-5,-1,3,3,9]
+w1 =0
 for j in s:
     cqm.add_constraint( 
-        sum( (x[0][i] * x[0][ (i+j) % n ]) for i in range( n ) )  +
-        sum( (x2[0][i] * x2[0][ (i+j) % n ]) for i in range( n ) ) == 2,
+        
+        sum( (x2[0][i] * x2[0][ (i+j) % n ]) for i in range( n ) ) == w[w1],
         copy=True,
-        penalty='quadratic',
-        weight=0.1,
+        # penalty='quadratic',
+        # weight=0.1,
         label=f'capacity_bin_{j}1')
+    w1+=1
 
 
 #print(cqm, "----------------------------")
