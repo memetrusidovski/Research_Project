@@ -88,12 +88,12 @@ def clean(qq):
         print(f"{Fore.GREEN}] {ct}\n")
 
 
-n = 37
+n = 15
 # s = [1,2,3,4,5] #
 s = list(range(1, int((n-1)/2)))
 # s = [15,16,17,18,19,20]
 # s = [1,2,3,4,5,6,7,8,9,10]
-alpha = (5, 11)
+alpha = (3, 7)
 
 x = [[dimod.Spin(f'a_0_{j}') for j in range(n)] ]
 x2 = [[dimod.Spin(f'b_0_{j}') for j in range(n)] ]

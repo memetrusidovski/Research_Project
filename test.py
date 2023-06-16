@@ -1,19 +1,15 @@
-from dwave.system import DWaveSampler, EmbeddingComposite
-from dimod import BinaryQuadraticModel
+f = open("test.txt", "r")
 
-N = [0,1,2]
+a = 0
+b = 0
 
-
-#Variables 
-x = [[f'A_{num}', f'B_{num}'] for num in N]
-
-print(x)
-
-#bqm = BinaryQuadraticModel('BINARY')
-
-qubo = {(0, 0): 0, (1, 1): 0, (0, 1): 0.5, (2, 2): 0,
-        (0, 2): 0.5, (1, 2): 0.5}
-bqm = BinaryQuadraticModel.from_qubo(qubo)
-
-print(bqm)
-#change
+for x in f:
+        y = x.split(' ')[1:-1]
+        for i in y:
+                if int(i) == 1:
+                        a += 1
+                else:
+                        b += 1
+        print("1: ", a, "  -1: ", b)
+        a = 0
+        b =0
