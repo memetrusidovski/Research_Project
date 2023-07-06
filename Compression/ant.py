@@ -4,11 +4,11 @@ from mpl_toolkits.mplot3d import Axes3D
 from typing import List, Dict
 from copy import deepcopy
 
-# a =  [-1, -1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1, 1, -1, 1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1] 
-# b =  [-1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, -1]
+a =  [-1, -1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1, 1, -1, 1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1] 
+b =  [-1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, -1]
 
-a =  [-1, -1, -1, -1, -1, -1, -1, -1, -1, 1,-1,1,-1,1,1,1,1,1,1,1,1] 
-b =  [-1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, 1,-1,1,-1,1,1,1,1,1,1]
+# a =  [1, 1, -1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, 1, -1, 1, -1, 1, -1] 
+# b =  [-1, 1, -1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1]
 
 # a =  [-1, -1, -1, -1, -1, -1, -1,-1, 1, 1, -1, -1, 1, -1,  1] 
 # b =  [-1,  1,  1,  1,  1, -1, 1 ,-1, 1, 1,  1, -1, -1, 1, -1]
@@ -45,6 +45,25 @@ def check(a_temp: List[int], b_temp: List[int]):
 
 def distance(point1, point2):
     return np.sqrt(np.sum((point1 - point2)**2))
+
+def ones(t1, t2):
+    q = 0
+    w = 0
+
+    for i in t1:
+        if int(i) == 1:
+            q += 1
+        else:
+            w += 1  
+    print("1: ", q, "  -1: ", w)
+    q = 0
+    w = 0
+    for i in t2:
+        if int(i) == 1:
+            q += 1
+        else:
+            w += 1
+    print("1: ", q, "  -1: ", w)
 
 def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate, Q):
     # n_points = len(points)
@@ -89,6 +108,7 @@ def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate,
                     next_point = np.random.choice(pick, p=probabilities)
                     if c_temp[next_point] == 1:
                         w_i[ next_point ] += Q/total_check
+                        
                     else:
                         w_i[ next_point + N ] += Q/total_check
                 else:
@@ -97,7 +117,25 @@ def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate,
 
                 
                 # path.append(next_point)
-                
+
+                # maintain feasiblity 
+                flag = True
+                while flag:
+                    if next_point < n: 
+                        pick = range(0,n)
+                        npoint = np.random.choice(pick)
+                        if a_temp[next_point] != a_temp[npoint]:
+                            flag = False 
+                            a_temp[npoint] *= -1
+                    else:
+                        pick = range(n,N)
+                        npoint = np.random.choice(pick)
+                        npoint -= n
+                        if b_temp[next_point-n] != b_temp[npoint]:
+                            flag = False 
+                            b_temp[npoint] *= -1
+
+
                 # path_length += distance(points[current_point], points[next_point])
                 # visited[next_point] = True
                 current_point = next_point
@@ -106,6 +144,7 @@ def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate,
                     a_temp[next_point] *= -1
                 else:
                     b_temp[next_point - n] *= -1
+                
                 
 
             # paths.append(path)
@@ -116,7 +155,7 @@ def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate,
             #     best_path_length = path_length
         
         w_i *= 1 - evaporation_rate
-    print(w_i, "\n ->", current_point)
+    print(w_i, "\n ->", ones(a_temp, b_temp))
         
         # for path, path_length in zip(paths, path_lengths):
         #     for i in range(n_points-1):
@@ -144,9 +183,9 @@ def ant_colony_optimization(n_ants, n_iterations, alpha, beta, evaporation_rate,
 # points = np.random.rand(10, 3) # Generate 10 random 3D points
 
 # ant_colony_optimization(n_ants=10, n_iterations=50, alpha=1, beta=1, evaporation_rate=0.9, Q=1)
-ant_colony_optimization(n_ants=10, n_iterations=100, alpha=1.01, beta=1.01, evaporation_rate=0.05, Q=1)
+# ant_colony_optimization(n_ants=10, n_iterations=100, alpha=1.01, beta=1.01, evaporation_rate=0.05, Q=1)
 # ant_colony_optimization(n_ants=10, n_iterations=50, alpha=0.1, beta=0.1, evaporation_rate=0.2, Q=1)
-# ant_colony_optimization(n_ants=60, n_iterations=500, alpha=1.6, beta=1.6, evaporation_rate=0.05, Q=1)
+ant_colony_optimization(n_ants=60, n_iterations=500, alpha=1.6, beta=1.6, evaporation_rate=0.05, Q=1)
 
 
 print(check(a,b))
